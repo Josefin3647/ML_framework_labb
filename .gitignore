@@ -12,10 +12,7 @@ venv/
 
 # DVC / ML
 .dvc/
-data/
 models/
 
 # VSCode
 .vscode/
-
-data/
