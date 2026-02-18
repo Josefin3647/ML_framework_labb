@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+venv/
+
+# DVC / ML
+.dvc/
+data/
+models/
+
+# VSCode
+.vscode/
