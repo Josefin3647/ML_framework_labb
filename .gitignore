@@ -17,3 +17,5 @@ models/
 
 # VSCode
 .vscode/
+
+/data/
