@@ -6,24 +6,21 @@ class SimpleCNN(nn.Module):
     def __init__(self, num_classes=10):
         super().__init__()
 
-        # Convolution layers
         self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
 
         self.pool = nn.MaxPool2d(2, 2)
 
-        # Fully connected layers
         self.fc1 = nn.Linear(128 * 4 * 4, 256)
         self.fc2 = nn.Linear(256, num_classes)
 
         self.dropout = nn.Dropout(0.3)
 
     def forward(self, x):
-
-        x = self.pool(F.relu(self.conv1(x)))  # 32x32 → 16x16
-        x = self.pool(F.relu(self.conv2(x)))  # 16x16 → 8x8
-        x = self.pool(F.relu(self.conv3(x)))  # 8x8 → 4x4
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv3(x)))
 
         x = torch.flatten(x, 1)
 

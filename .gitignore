@@ -13,6 +13,8 @@ venv/
 # DVC / ML
 .dvc/
 models/
+*.gz
+data/
 
 # VSCode
 .vscode/

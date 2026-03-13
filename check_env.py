@@ -1,4 +1,4 @@
-# The following code is chatgpt generated/Josefin
+# The following code is chatgpt generated
 
 import sys
 
@@ -37,20 +37,17 @@ def main() -> None:
     except Exception as e:
         fail(f"Could not import jupyter_core: {e}")
 
-    # Versions
     ok(f"torch: {torch.__version__}")
     ok(f"scikit-learn: {sklearn.__version__}")
     ok(f"pandas: {pd.__version__}")
     ok(f"jupyter: {jupyter_core.__version__}")
 
-    # GPU / accelerator check
     cuda_ok = torch.cuda.is_available()
     mps_ok = hasattr(torch.backends, "mps") and torch.backends.mps.is_available()
 
     ok(f"CUDA available: {cuda_ok}")
     ok(f"MPS available: {mps_ok}")
 
-    # Select device
     if cuda_ok:
         device = torch.device("cuda")
     elif mps_ok:
@@ -60,7 +57,6 @@ def main() -> None:
 
     ok(f"Using device: {device}")
 
-    # Tensor computation
     try:
         a = torch.randn(1024, 1024, device=device)
         b = torch.randn(1024, 1024, device=device)
