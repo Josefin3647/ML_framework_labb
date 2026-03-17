@@ -1,13 +1,12 @@
 from pathlib import Path
+from config import DATA_PATH, NUM_WORKERS
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
-
 def get_dataloaders(
-    data_root="data",
+    data_root=DATA_PATH,
     batch_size=64,
-    num_workers=2,
-    download=False
+    num_workers=NUM_WORKERS
 ):
     """
     Load CIFAR-10 using torchvision and return train/test DataLoaders.
@@ -17,6 +16,10 @@ def get_dataloaders(
         batch_size (int): Batch size
         num_workers (int): Number of CPU workers for DataLoader
         download (bool): Whether to download dataset if not present
+    
+    Returns:
+    Train and test loaders
+
     """
 
     data_root = Path(data_root)
@@ -38,14 +41,14 @@ def get_dataloaders(
     train_dataset = datasets.CIFAR10(
         root=data_root,
         train=True,
-        download=download,
+        download=True,
         transform=train_transform
     )
 
     test_dataset = datasets.CIFAR10(
         root=data_root,
         train=False,
-        download=download,
+        download=True,
         transform=test_transform
     )
 

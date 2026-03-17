@@ -1,8 +1,9 @@
-# config.py
+from pathlib import Path
 
-DATA_ROOT = "data"
+PROJECT_ROOT = Path(__file__).resolve().parent
+DATA_PATH = PROJECT_ROOT / "data"
+
 NUM_WORKERS = 2
-DOWNLOAD = False
 NUM_CLASSES = 10
 
 EXPERIMENTS = [

@@ -18,10 +18,9 @@ def main():
         print("==============================")
 
         train_loader, test_loader = get_dataloaders(
-            data_root=config.DATA_ROOT,
+            data_root=config.DATA_PATH,
             batch_size=exp["batch_size"],
             num_workers=config.NUM_WORKERS,
-            download=config.DOWNLOAD,
         )
 
         model = SimpleCNN(num_classes=config.NUM_CLASSES)
