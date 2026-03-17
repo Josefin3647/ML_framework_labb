@@ -51,6 +51,7 @@ pip install dvc
 ```
 .
 ├── data/            # CIFAR-10 dataset (DVC tracked)
+├── logs/            # Experiment logs
 ├── src/
 │   ├── config.py    # Experiment configurations
 │   ├── dataset.py   # Data loading & preprocessing
@@ -59,7 +60,6 @@ pip install dvc
 │   └── main.py      # Entry point
 │
 ├── eda.ipynb        # Exploratory data analysis
-├── results.png      # Example results
 ├── pyproject.toml   # Dependencies
 └── README.md
 ```
