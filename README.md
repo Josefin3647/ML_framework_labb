@@ -33,6 +33,19 @@ This will:
 3. Evaluate performance
 4. Print results in a table
 
+### Data Versioning (DVC)
+
+The dataset directory is tracked using DVC. To pull the data:
+
+```bash
+dvc pull
+```
+
+If DVC is not installed:
+```bash
+pip install dvc
+```
+
 ## Project structure
 
 ```
@@ -139,7 +152,7 @@ Key Insights
 - The baseline provides a reasonable starting point, but performance can be noticeably improved with additional training.
 
 ## Notes
-The dataset is downloaded automatically to the data/ folder och GPU will be used if available. 
+The dataset is downloaded automatically to the `data/` folder and GPU will be used if available. 
 Dependencies are defined in pyproject.toml and locked in uv.lock.
 
 ```bash
@@ -148,5 +161,5 @@ uv sync
 automatically creates and manages a virtual environment.
 
 ## Acknowledgments
-This project was developed with assistance from ChatGPT, which was used to help generate and refine parts of the Python code.
+Parts of this project were developed with the assistance of AI tools for code generation and refinement.
 
