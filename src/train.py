@@ -1,91 +1,70 @@
-# train.py
 import torch
 import torch.nn as nn
+import torch.optim as optim
 
 
-@torch.no_grad()
-def evaluate(model, dataloader, device):
-    """
-    Evaluate accuracy on a dataloader.
-    Returns accuracy in [0, 1].
-    """
-    model.eval()
-
-    correct = 0
-    total = 0
-
-    for images, labels in dataloader:
-        images = images.to(device, non_blocking=True)
-        labels = labels.to(device, non_blocking=True)
-
-        logits = model(images)
-        preds = logits.argmax(dim=1)
-
-        correct += (preds == labels).sum().item()
-        total += labels.size(0)
-
-    return correct / max(total, 1)
-
-
-def train(
-    model,
-    train_loader,
-    test_loader,
-    device,
-    epochs=10,
-    lr=1e-3,
-):
-    """
-    Trains model on train_loader and evaluates on test_loader each epoch.
-    Returns final test accuracy (float in [0, 1]).
-
-    This matches how main.py calls train(...).  :contentReference[oaicite:4]{index=4}
-    """
-    model.to(device)
-
+def train(model, train_loader, test_loader, device, epochs=10, lr=0.001):
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = optim.Adam(model.parameters(), lr=lr)
 
-    best_acc = 0.0
-    final_acc = 0.0
+    train_losses = []
+    test_losses = []
 
-    for epoch in range(1, epochs + 1):
+    for epoch in range(epochs):
         model.train()
-
-        running_loss = 0.0
-        correct = 0
-        total = 0
+        epoch_loss = 0.0
 
         for images, labels in train_loader:
-            images = images.to(device, non_blocking=True)
-            labels = labels.to(device, non_blocking=True)
-
-            optimizer.zero_grad(set_to_none=True)
+            images = images.to(device)
+            labels = labels.to(device)
 
             logits = model(images)
             loss = criterion(logits, labels)
+
+            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.item() * labels.size(0)
+            epoch_loss += loss.item()
 
-            preds = logits.argmax(dim=1)
-            correct += (preds == labels).sum().item()
-            total += labels.size(0)
+        avg_train_loss = epoch_loss / len(train_loader)
+        train_losses.append(avg_train_loss)
 
-        train_loss = running_loss / max(total, 1)
-        train_acc = correct / max(total, 1)
+        model.eval()
+        test_loss = 0.0
+        correct = 0
+        total = 0
 
-        test_acc = evaluate(model, test_loader, device)
-        final_acc = test_acc
-        best_acc = max(best_acc, test_acc)
+        with torch.no_grad():
+            for images, labels in test_loader:
+                images = images.to(device)
+                labels = labels.to(device)
+
+                logits = model(images)
+                loss = criterion(logits, labels)
+
+                test_loss += loss.item()
+
+                preds = torch.argmax(logits, dim=1)
+                correct += (preds == labels).sum().item()
+                total += labels.size(0)
+
+        avg_test_loss = test_loss / len(test_loader)
+        acc = correct / total
+
+        test_losses.append(avg_test_loss)
 
         print(
-            f"Epoch {epoch:02d}/{epochs} | "
-            f"train_loss={train_loss:.4f} | "
-            f"train_acc={train_acc:.3f} | "
-            f"test_acc={test_acc:.3f}"
+            f"Epoch {epoch + 1}/{epochs}, "
+            f"train loss: {avg_train_loss:.4f}, "
+            f"test loss: {avg_test_loss:.4f}, "
+            f"accuracy: {acc:.4f}"
         )
 
-    print(f"Best test_acc: {best_acc:.3f}")
-    return final_acc
+    return {
+        "train_losses": train_losses,
+        "test_losses": test_losses,
+        "final_train_loss": train_losses[-1],
+        "final_test_loss": test_losses[-1],
+        "final_acc": acc,
+    }
