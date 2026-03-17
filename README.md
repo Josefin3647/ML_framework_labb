@@ -35,6 +35,7 @@ This will:
 
 ## Project structure
 
+```
 .
 ├── data/            # CIFAR-10 dataset (DVC tracked)
 ├── src/
@@ -47,7 +48,8 @@ This will:
 ├── eda.ipynb        # Exploratory data analysis
 ├── results.png      # Example results
 ├── pyproject.toml   # Dependencies
-├── README.md
+└── README.md
+```
 
 ## Dataset
 
@@ -114,16 +116,15 @@ EXPERIMENTS = [
 ]
 ```
 
-**Description**
+**baseline**: Default setup with a standard learning rate, 0.001, and a moderate training time.
 
-baseline: Default setup with a standard learning rate and moderate training time.
+**low_lr**: Uses a lower learning rate, 0.0003, and more epochs, allowing for more gradual learning.
 
-low_lr: Uses a lower learning rate and more epochs, allowing for more gradual learning.
-
-more_epochs: Trains longer with a larger batch size, which may improve stability and performance.
+**more_epochs**: Trains longer with a larger batch size (128), which may improve stability and performance.
 
 ## Experiment Output
 Final results:
+
 ===== RESULTS =====
 | Experiment   | Train Loss | Test Loss | Accuracy |
 |-------------|-----------|----------|----------|
