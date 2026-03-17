@@ -9,6 +9,7 @@ def train(model, train_loader, test_loader, device, epochs=10, lr=0.001):
 
     train_losses = []
     test_losses = []
+    accuracies = []
 
     for epoch in range(epochs):
         model.train()
@@ -53,6 +54,7 @@ def train(model, train_loader, test_loader, device, epochs=10, lr=0.001):
         acc = correct / total
 
         test_losses.append(avg_test_loss)
+        accuracies.append(acc)
 
         print(
             f"Epoch {epoch + 1}/{epochs}, "
@@ -64,7 +66,8 @@ def train(model, train_loader, test_loader, device, epochs=10, lr=0.001):
     return {
         "train_losses": train_losses,
         "test_losses": test_losses,
+        "accuracies": accuracies,
         "final_train_loss": train_losses[-1],
         "final_test_loss": test_losses[-1],
-        "final_acc": acc,
+        "final_acc": accuracies[-1],
     }

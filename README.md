@@ -22,9 +22,9 @@ pip install uv
 ```
 ## How to Run
 
-From the `src/` directory, run:
+From the root, run:
 ```bash
-python main.py
+uv run python -m src.main
 ```
 
 This will:
@@ -91,7 +91,7 @@ The model is a simple Convolutional Neural Network (CNN) consisting of:
 ## Experiments
 
 The project includes a set of predefined experiments to compare different training configurations. 
-Each experiment varies hyperparameters such as learning rate, number of epochs, and batch size.
+Each experiment varies hyperparameters such as learning rate and number of epochs.
 
 ```python
 EXPERIMENTS = [
@@ -103,40 +103,49 @@ EXPERIMENTS = [
     },
     {
         "name": "low_lr",
-        "epochs": 15,
-        "lr": 0.0003,
+        "epochs": 10,
+        "lr": 0.0001,
         "batch_size": 64,
     },
     {
         "name": "more_epochs",
-        "epochs": 20,
+        "epochs": 30,
         "lr": 0.001,
-        "batch_size": 128,
+        "batch_size": 64,
     },
 ]
 ```
 
-**baseline**: Default setup with a standard learning rate, 0.001, and a moderate training time.
+### Experiment Summary
 
-**low_lr**: Uses a lower learning rate, 0.0003, and more epochs, allowing for more gradual learning.
+- **baseline**: Standard setup with moderate training time.
+- **low_lr**: Slower learning, leading to underfitting.
+- **more_epochs**: Improved performance due to longer training, with no clear overfitting observed.
 
-**more_epochs**: Trains longer with a larger batch size (128), which may improve stability and performance.
-
-## Experiment Output
+## Experiment Result
 Final results:
 
 ===== RESULTS =====
-| Experiment   | Train Loss | Test Loss | Accuracy |
-|-------------|-----------|----------|----------|
-| baseline    | 0.7016    | 0.6329   | 0.7815   |
-| low_lr      | 0.6882    | 0.6451   | 0.7726   |
-| more_epochs | 0.5613    | 0.5754   | 0.7999   |
+| Experiment    | Train Loss | Test Loss | Accuracy |
+|---------------|------------|-----------|----------|
+| baseline      | 0.6796     | 0.6250    | 0.7851   |
+| low_lr        | 1.1038     | 0.9804    | 0.6543   |
+| more_epochs   | 0.5338     | 0.5578    | 0.8134   |
+
+Key Insights
+- Increasing the number of epochs improved all metrics, indicating that the baseline model was undertrained and benefited from longer training.
+- Reducing the learning rate without increasing training time led to worse performance, likely due to slower convergence and insufficient optimization.
+- There are no clear signs of overfitting, as both training and test loss decreased while accuracy improved in the more_epochs experiment.
+- The baseline provides a reasonable starting point, but performance can be noticeably improved with additional training.
 
 ## Notes
-The dataset is downloaded automatically to the data/ folder. 
-GPU will be used if available. 
-Dependencies are defined in pyproject.toml and locked in uv.lock
-uv sync automatically creates and manages a virtual environment.
+The dataset is downloaded automatically to the data/ folder och GPU will be used if available. 
+Dependencies are defined in pyproject.toml and locked in uv.lock.
+
+```bash
+uv sync
+``` 
+automatically creates and manages a virtual environment.
 
 ## Acknowledgments
 This project was developed with assistance from ChatGPT, which was used to help generate and refine parts of the Python code.

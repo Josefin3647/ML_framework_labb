@@ -15,14 +15,14 @@ EXPERIMENTS = [
     },
     {
         "name": "low_lr",
-        "epochs": 15,
-        "lr": 0.0003,
+        "epochs": 10,
+        "lr": 0.0001,
         "batch_size": 64,
     },
     {
         "name": "more_epochs",
-        "epochs": 20,
+        "epochs": 30,
         "lr": 0.001,
-        "batch_size": 128,
+        "batch_size": 64,
     },
 ]

@@ -1,5 +1,5 @@
 from pathlib import Path
-from config import DATA_PATH, NUM_WORKERS
+from src.config import DATA_PATH, NUM_WORKERS
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
@@ -69,3 +69,25 @@ def get_dataloaders(
     )
 
     return train_loader, test_loader
+
+def get_eda_dataset(
+    train=True,
+    data_root=DATA_PATH
+):
+    """
+    Load CIFAR-10 without augmentation or normalization.
+    Useful for EDA and visualization.
+    """
+
+    data_root = Path(data_root)
+
+    eda_transform = transforms.ToTensor()
+
+    dataset = datasets.CIFAR10(
+        root=data_root,
+        train=train,
+        download=True,
+        transform=eda_transform
+    )
+
+    return dataset
